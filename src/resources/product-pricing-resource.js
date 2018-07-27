@@ -1,17 +1,27 @@
 const mongoose = require('mongoose')
-const { PriceNotFoundError } = require('./errors')
+const { PriceNotFoundError } = require('../errors')
 
 const priceSchema = new mongoose.Schema({
-  sku: Number,
-  currentPrice: Number
+  sku: String,
+  currentPrice: String
 })
 
 const Price = mongoose.model('Price', priceSchema)
 
+const findPriceBySku = sku => Price.findOne({ sku }).exec()
+
 const getProductPrice = async sku => {
-  const price = await Price.findOne({ sku }).exec()
-  if (!price) throw new PriceNotFoundError(sku)
-  return { price }
+  const response = await findPriceBySku(sku)
+  if (!response) throw new PriceNotFoundError(sku)
+  return {
+    currentPrice: response.currentPrice
+  }
 }
 
-exports = module.exports = { getProductPrice }
+const setProductPrice = async (sku, currentPrice) => {
+  const price = (await findPriceBySku(sku)) || new Price({ sku })
+  price.set({ currentPrice })
+  return price.save()
+}
+
+exports = module.exports = { getProductPrice, setProductPrice }

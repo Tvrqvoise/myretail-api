@@ -6,7 +6,7 @@ exports = module.exports = () => {
     useNewUrlParser: true
   })
 
-  mongoose.connection
-    .on('error', (...args) => console.error('connection error:', ...args))
-    .once('open', () => console.log('connection successfully established'))
+  return new Promise((resolve, reject) => {
+    mongoose.connection.on('error', reject).once('open', resolve)
+  })
 }

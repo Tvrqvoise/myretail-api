@@ -1,9 +1,12 @@
 const app = require('./app')
 const establishDBConnection = require('./db')
 
+const port = process.env.PORT || 3000
+
 async function start () {
   await establishDBConnection()
-  app.listen(process.env.PORT || 3000)
+  console.log('database connection established')
+  app.listen(port, () => console.log(`app listening at ${port}`))
 }
 
 start()
