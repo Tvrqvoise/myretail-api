@@ -1,6 +1,7 @@
-const express = require('express')
-const fetch = require('node-fetch')
 const morgan = require('morgan')
+const express = require('express')
+const { getProductPrice, PriceNotFoundError } = require('./resources/product-pricing-resource')
+const { getProductDetails, DetailsNotFoundError } = require('./resources/product-details-resource')
 
 // Rules here are arbitrary -- hopefully I'd know the real ones if this app was real
 const isValidSku = sku => /^\d{3,10}$/.test(sku)
@@ -12,8 +13,26 @@ exports = module.exports = express()
     if (!isValidSku(sku)) {
       return res.status(422).json({ error: `${JSON.stringify(sku)} is not a valid SKU` })
     }
-    const response = await fetch(`http://redsky.target.com/v2/pdp/tcin/${sku}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics`)
-    const json = await response.json()
-    return res.json(json)
+
+    try {
+      const [
+        details,
+        price
+      ] = await Promise.all([
+        getProductDetails(sku),
+        getProductPrice(sku)
+      ])
+
+      res.json({
+        ...details,
+        price
+      })
+    } catch (ex) {
+      if ((ex instanceof PriceNotFoundError) || (ex instanceof DetailsNotFoundError)) {
+        res.status(404).json({ error: ex.message })
+      } else {
+        res.status(500).json({ error: ex.message })
+      }
+    }
   })
   .use('*', (req, res) => res.status(404).json({ error: 'Route not configured' }))
