@@ -1,0 +1,29 @@
+{
+  "name": "myretail-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tvrqvoise/myretail-api.git"
+  },
+  "author": "Michael Grenier",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Tvrqvoise/myretail-api/issues"
+  },
+  "homepage": "https://github.com/Tvrqvoise/myretail-api#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "node-fetch": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.2.0",
+    "eslint-config-standard": "^11.0.0",
+    "jest": "^23.4.1"
+  }
+}
