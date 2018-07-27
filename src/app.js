@@ -8,14 +8,14 @@ const autoCatch = func => async (req, res, next) => {
   try {
     await func(req, res, next)
   } catch (ex) {
-    return next(ex)
+    next(ex)
   }
 }
 
 exports = module.exports = express()
   .use(morgan(process.env.NODE_ENV === 'production' ? 'tiny' : 'dev'))
   .use(express.json())
-  .get('/products/v1/:sku', autoCatch(async (req, res, next) => {
+  .get('/products/v1/:sku', autoCatch(async (req, res) => {
     const { sku } = req.params
 
     validateSku(sku)
@@ -33,7 +33,7 @@ exports = module.exports = express()
       price
     })
   }))
-  .put('/products/v1/:sku/price/', autoCatch(async (req, res, next) => {
+  .put('/products/v1/:sku/price', autoCatch(async (req, res) => {
     const { sku } = req.params
     const { currentPrice } = req.body
 
@@ -45,7 +45,6 @@ exports = module.exports = express()
   }))
   .use('*', (req, res) => res.status(404).json({ error: 'Route not configured' }))
   .use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(err.status || 500).json({ error: err.message })
+    res.status(err.statusCode || 500).json({ error: err.message })
     next(err)
   })

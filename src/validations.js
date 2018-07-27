@@ -1,7 +1,7 @@
 const { ValidationError } = require('./errors')
 
 const makeValidationFromRegex = (rx, field) => input => {
-  if (!rx.test(input || '')) { throw new ValidationError(field, input) }
+  if (!rx.test(input || '')) { throw new ValidationError(`${JSON.stringify(input)} is not a valid ${field}`) }
 }
 
 // Rules here are arbitrary -- hopefully I'd know the real ones if this app was real

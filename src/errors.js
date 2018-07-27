@@ -22,8 +22,8 @@ class ServiceError extends BaseError {
 }
 
 class ValidationError extends BaseError {
-  constructor (field, input) {
-    super(`${JSON.stringify(input)} is not a valid value for ${JSON.stringify(field)}`)
+  constructor (...args) {
+    super(...args)
     this.statusCode = 422
   }
 }
