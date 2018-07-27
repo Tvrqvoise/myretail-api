@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { PriceNotFoundError } = require('./errors')
 
 const priceSchema = new mongoose.Schema({
   sku: Number,
@@ -9,6 +10,7 @@ const Price = mongoose.model('Price', priceSchema)
 
 const getProductPrice = async sku => {
   const price = await Price.find({ sku }).exec()
+  if (!price) throw new PriceNotFoundError(sku)
   return { price }
 }
 

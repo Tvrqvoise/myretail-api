@@ -1,7 +1,8 @@
 const morgan = require('morgan')
 const express = require('express')
-const { getProductPrice, PriceNotFoundError } = require('./resources/product-pricing-resource')
-const { getProductDetails, DetailsNotFoundError } = require('./resources/product-details-resource')
+const { getProductPrice } = require('./resources/product-pricing-resource')
+const { getProductDetails } = require('./resources/product-details-resource')
+const { PriceNotFoundError, DetailsNotFoundError } = require('./resources/errors')
 
 // Rules here are arbitrary -- hopefully I'd know the real ones if this app was real
 const isValidSku = sku => /^\d{3,10}$/.test(sku)
