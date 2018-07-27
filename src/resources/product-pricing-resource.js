@@ -9,7 +9,7 @@ const priceSchema = new mongoose.Schema({
 const Price = mongoose.model('Price', priceSchema)
 
 const getProductPrice = async sku => {
-  const price = await Price.find({ sku }).exec()
+  const price = await Price.findOne({ sku }).exec()
   if (!price) throw new PriceNotFoundError(sku)
   return { price }
 }
