@@ -5,9 +5,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src/**.js",
     "test": "jest",
-    "start": "NODE_ENV=production node ./lib/index.js",
-    "debug": "NODE_ENV=development nodemon ./src/index.js"
+    "build": "babel src --out-dir lib --copy-files --ignore __mocks__,__tests__",
+    "production": "NODE_ENV=production node ./lib/index.js",
+    "start": "NODE_ENV=development nodemon ./src/index.js"
   },
   "repository": {
     "type": "git",
@@ -27,12 +29,18 @@
     "node-fetch": "^2.2.0"
   },
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^5.2.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
+    "git-hooks": "^1.1.10",
     "jest": "^23.4.1",
     "nodemon": "^1.18.3",
     "supertest": "^3.1.0"

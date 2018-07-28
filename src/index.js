@@ -1,3 +1,5 @@
+if (process.env.NODE_ENV !== 'production') require('babel-register')
+
 const app = require('./app')
 const establishDBConnection = require('./db')
 

@@ -46,5 +46,5 @@ exports = module.exports = express()
   .use('*', (req, res) => res.status(404).json({ error: 'Route not configured' }))
   .use((err, req, res, next) => {
     res.status(err.statusCode || 500).json({ error: err.message })
-    next(err)
+    next()
   })
