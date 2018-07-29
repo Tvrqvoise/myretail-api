@@ -7,12 +7,13 @@ $ npm i
 
 ## Running in debug mode
 ```sh
-$ npm run debug
+$ npm start
 ```
 
 ## Running in production mode
 ```sh
-$ npm start
+$ npm run build
+$ npm run production
 ```
 
 ## Endpoints
